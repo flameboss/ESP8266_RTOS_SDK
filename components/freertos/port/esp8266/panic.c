@@ -233,6 +233,15 @@ static void esp_panic_reset(void)
 }
 #endif
 
+
+static void (*user_handler)(void *, int);
+
+
+void panic_set_user_handler(void (*fp)(void *, int))
+{
+    user_handler = fp;
+}
+
 void __attribute__((noreturn)) panicHandler(void *frame, int wdt)
 {
     extern int _chip_nmi_cnt;
@@ -247,6 +256,10 @@ void __attribute__((noreturn)) panicHandler(void *frame, int wdt)
 #ifdef ESP_PANIC_PRINT
     panic_info(frame, wdt);
 #endif
+
+    if (user_handler) {
+        (*user_handler)(frame, wdt);
+    }
 
 #ifdef ESP_PANIC_REBOOT
     esp_panic_reset();

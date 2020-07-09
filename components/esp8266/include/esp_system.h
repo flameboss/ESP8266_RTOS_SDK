@@ -246,6 +246,8 @@ void esp_chip_info(esp_chip_info_t* out_info);
   */
 flash_size_map system_get_flash_size_map(void);
 
+void panic_set_user_handler(void (*fp)(void *, int));
+
 #ifdef __cplusplus
 }
 #endif
