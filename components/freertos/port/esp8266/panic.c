@@ -237,7 +237,7 @@ static void esp_panic_reset(void)
 static void (*user_handler)(void *, int);
 
 
-void panic_set_user_handler(void (*fp)(void *, int))
+void system_set_panic_handler(void (*fp)(void *, int))
 {
     user_handler = fp;
 }
